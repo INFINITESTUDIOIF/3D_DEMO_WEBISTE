@@ -12,7 +12,8 @@ import { OutputPass } from "three/addons/postprocessing/OutputPass.js";
 /* ------------------------------------------------------------------ */
 const canvas = document.getElementById("scene");
 const renderer = new THREE.WebGLRenderer({ canvas, antialias: true, alpha: true });
-renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+const maxDPR = () => (window.innerWidth < 768 ? 1.5 : 2); // lighter GPU load on phones
+renderer.setPixelRatio(Math.min(window.devicePixelRatio, maxDPR()));
 renderer.setSize(window.innerWidth, window.innerHeight);
 renderer.toneMapping = THREE.ACESFilmicToneMapping;
 renderer.toneMappingExposure = 1.9;
@@ -174,9 +175,16 @@ function applyCamera(p) {
 
   const az = deg(lerp(a.az, b.az, t));
   const el = deg(lerp(a.el, b.el, t));
-  const dist = lerp(a.dist, b.dist, t) * R;
-  const side = lerp(a.side, b.side, t) * R;
+
+  /* Portrait phones: pull the camera back so the wide kiosk fits,
+     keep it centered (text lives at the bottom), and raise it on
+     screen so it sits above the copy */
+  const portrait = camera.aspect < 1;
+  const comp = portrait ? Math.min(2.4, Math.pow(1.45 / camera.aspect, 0.8)) : 1;
+  const dist = lerp(a.dist, b.dist, t) * R * comp;
+  const side = lerp(a.side, b.side, t) * R * (portrait ? 0.15 : 1);
   const lift = lerp(a.lift, b.lift, t) * R;
+  const vshift = portrait ? R * 0.42 : 0;
 
   const target = new THREE.Vector3(0, lift, 0);
   camera.position.set(
@@ -186,10 +194,12 @@ function applyCamera(p) {
   );
   camera.lookAt(target);
 
-  // Slide the view sideways so the model sits opposite the text
+  // Slide the view (translate, don't re-aim) so the model shifts on screen:
+  // sideways opposite the text on desktop, upward on portrait phones
   const right = new THREE.Vector3().setFromMatrixColumn(camera.matrix, 0);
+  const up = new THREE.Vector3().setFromMatrixColumn(camera.matrix, 1);
   camera.position.addScaledVector(right, -side);
-  // keep same orientation (translate, don't re-aim) → model shifts on screen
+  camera.position.addScaledVector(up, vshift);
 }
 
 /* ------------------------------------------------------------------ */
@@ -200,6 +210,7 @@ const copies = [...document.querySelectorAll(".scene-copy")];
 const dots = [...document.querySelectorAll(".progress-dot")];
 const countEl = document.getElementById("sectionCount");
 const promoLayer = document.getElementById("promoLayer");
+const promoPanel = promoLayer.querySelector(".promo-panel");
 
 let rawP = 0;      // immediate scroll progress
 let smoothP = 0;   // damped progress used by the camera
@@ -237,13 +248,17 @@ function updateOverlays(p) {
       ty = (1 - fadeIn) * 30;
     }
     el.style.opacity = opacity.toFixed(3);
-    el.style.transform = `translateY(calc(-50% + ${ty.toFixed(1)}px))`;
+    // CSS decides how --ty combines with centering (desktop) or bottom anchor (mobile)
+    el.style.setProperty("--ty", `${ty.toFixed(1)}px`);
   });
 
-  // Contact panel rides with the final scene and stays visible
+  // Contact panel rides with the final scene and stays visible;
+  // it slides up and scales in as you scroll (not just a fade)
   const localC = (p - (N - 1) * slice) / slice;
   const promoOp = Math.max(0, Math.min(1, (localC - 0.3) / 0.3));
   promoLayer.style.opacity = promoOp.toFixed(3);
+  promoPanel.style.transform =
+    `translateY(${((1 - promoOp) * 70).toFixed(1)}px) scale(${(0.94 + 0.06 * promoOp).toFixed(3)})`;
   promoLayer.classList.toggle("live", promoOp > 0.5);
 
   // Dots + counter — state change only when the index actually changes
@@ -290,6 +305,7 @@ loop();
 window.addEventListener("resize", () => {
   camera.aspect = window.innerWidth / window.innerHeight;
   camera.updateProjectionMatrix();
+  renderer.setPixelRatio(Math.min(window.devicePixelRatio, maxDPR()));
   renderer.setSize(window.innerWidth, window.innerHeight);
   composer.setSize(window.innerWidth, window.innerHeight);
 });

@@ -100,7 +100,7 @@ body {
 
 /* ---------- Stage / canvas ---------- */
 .experience-stage { height: 850vh; position: relative; }
-.canvas-pin { position: sticky; top: 0; height: 100vh; overflow: hidden; }
+.canvas-pin { position: sticky; top: 0; height: 100vh; height: 100dvh; overflow: hidden; }
 .canvas-wrap, .canvas-wrap canvas { position: absolute; inset: 0; width: 100%; height: 100%; display: block; }
 .canvas-vignette {
   position: absolute; inset: 0; pointer-events: none;
@@ -115,6 +115,7 @@ body {
   position: absolute; top: 50%;
   width: min(620px, 44vw);
   opacity: 0;
+  transform: translateY(calc(-50% + var(--ty, 30px)));
   will-change: opacity, transform;
 }
 .scene-copy.left  { left: clamp(48px, 7vw, 140px); }
@@ -174,7 +175,7 @@ body {
   padding-right: clamp(40px, 6vw, 120px);
 }
 .promo-layer.live { pointer-events: auto; }
-.promo-panel { width: min(480px, 42vw); }
+.promo-panel { width: min(480px, 42vw); will-change: transform; }
 .promo-eyebrow {
   font-size: 12px; font-weight: 600; letter-spacing: 0.32em; text-transform: uppercase;
   color: var(--accent-cyan);
@@ -257,14 +258,50 @@ body {
 
 /* ---------- Responsive ---------- */
 @media (max-width: 900px) {
-  .site-chrome { padding: 22px 22px; }
-  .progress-rail { left: 18px; gap: 16px; }
-  .count-line { width: 50px; }
-  .scene-copy { width: min(520px, 84vw); top: auto; bottom: 9vh; }
-  .scene-copy.left, .scene-copy.right { left: 22px; right: auto; }
-  .scene-copy h1, .scene-copy h2 { font-size: clamp(44px, 11vw, 72px); margin-bottom: 20px; }
-  .scene-copy p { font-size: 14px; }
-  .promo-layer { justify-content: center; padding: 0 18px; align-items: flex-start; padding-top: 12vh; }
-  .promo-panel { width: 100%; }
-  .promo-title { font-size: 32px; }
+  .site-chrome { padding: 18px 20px; }
+  .brand-lockup span:first-child { font-size: 11px; }
+  .brand-lockup span:last-child { font-size: 9px; }
+  .section-count { font-size: 11px; gap: 10px; }
+  .count-line { width: 40px; }
+
+  .progress-rail { left: 12px; gap: 14px; }
+  .progress-dot { width: 6px; height: 6px; }
+
+  .studio-credit { bottom: 12px; right: 14px; font-size: 8px; letter-spacing: 0.22em; }
+
+  /* Copy sits at the bottom of the screen, model floats above it */
+  .scene-copy {
+    width: calc(100vw - 40px);
+    top: auto; bottom: 7vh;
+    transform: translateY(var(--ty, 30px));
+  }
+  .scene-copy.left, .scene-copy.right { left: 26px; right: auto; }
+  .scene-index { gap: 12px; font-size: 11px; margin-bottom: 16px; }
+  .scene-copy h1, .scene-copy h2 {
+    font-size: clamp(40px, 11.5vw, 64px);
+    margin-bottom: 16px;
+  }
+  .scene-copy p { font-size: 13.5px; line-height: 1.6; max-width: 46ch; }
+
+  /* Contact: the panel owns the screen; the scene-06 copy hides to
+     avoid overlapping the form on a small viewport */
+  .contact-copy { display: none; }
+  .promo-layer {
+    justify-content: center; align-items: flex-end;
+    padding: 0 16px 6vh;
+  }
+  .promo-panel { width: 100%; max-width: 430px; }
+  .promo-eyebrow { font-size: 10px; }
+  .promo-title { font-size: clamp(26px, 7.5vw, 34px); margin: 10px 0 16px; }
+  .promo-panel form { padding: 18px; gap: 12px; border-radius: 12px; }
+  .promo-panel input, .promo-panel select, .promo-panel textarea { font-size: 14px; padding: 10px 12px; }
+  .promo-panel textarea { rows: 2; }
+  .promo-cta { padding: 13px; font-size: 12px; }
+  .promo-meta { margin-top: 12px; gap: 18px; font-size: 11px; }
+}
+
+/* Very small phones: trim the heading a bit more */
+@media (max-width: 380px) {
+  .scene-copy h1, .scene-copy h2 { font-size: 36px; }
+  .scene-copy p { font-size: 13px; }
 }
