@@ -2,3 +2,6 @@
 .claude/
 node_modules/
 dist/
+
+# source asset (the site serves its own copy from site/models/kiosk.glb)
+neon bakery kiosk 3d model_optimized.glb
