@@ -1,0 +1,10 @@
+{
+  "name": "sweet-bites-3d-demo",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Sweet Bites neon bakery kiosk — a 3D scroll experience demo by Aevinite",
+  "scripts": {
+    "build": "node -e \"const fs=require('fs');fs.rmSync('dist',{recursive:true,force:true});fs.cpSync('site','dist',{recursive:true});console.log('Built static site into dist/');\"",
+    "dev": "python -m http.server 8347 --directory site"
+  }
+}

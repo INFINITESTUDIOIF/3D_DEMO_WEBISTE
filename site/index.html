@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Sweet Bites | Neon Bakery Kiosk — an Aevinite demo</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,500&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <!-- Loading overlay -->
+  <div class="loader" id="loader">
+    <div class="loader-inner">
+      <span class="loader-brand">AEVINITE <i>×</i> SWEET BITES</span>
+      <div class="loader-bar"><div class="loader-bar-fill" id="loaderFill"></div></div>
+      <span class="loader-pct" id="loaderPct">0%</span>
+    </div>
+  </div>
+
+  <main class="architecture-page">
+    <!-- Fixed chrome -->
+    <header class="site-chrome">
+      <div class="brand-lockup">
+        <span>Sweet Bites</span>
+        <span>Neon Bakery Kiosk</span>
+      </div>
+      <div class="section-count"><span class="count-line"></span><span id="sectionCount">01 / 06</span></div>
+    </header>
+
+    <nav class="progress-rail" id="progressRail">
+      <span class="progress-dot active"></span>
+      <span class="progress-dot"></span>
+      <span class="progress-dot"></span>
+      <span class="progress-dot"></span>
+      <span class="progress-dot"></span>
+      <span class="progress-dot"></span>
+    </nav>
+
+    <a class="studio-credit" href="https://aevinite.com" target="_blank" rel="noopener">A 3D web demo by <b>AEVINITE</b></a>
+
+    <!-- Scroll stage -->
+    <section class="experience-stage" id="stage">
+      <div class="canvas-pin">
+        <div class="canvas-wrap"><canvas id="scene"></canvas></div>
+        <div class="canvas-vignette"></div>
+
+        <!-- Contact layer (scene 06) -->
+        <div class="promo-layer" id="promoLayer">
+          <div class="promo-panel">
+            <span class="promo-eyebrow">Contact — Aevinite</span>
+            <h3 class="promo-title">Make your product the hero.</h3>
+            <form id="promoForm">
+              <label>Name
+                <input type="text" placeholder="Your name" autocomplete="off" />
+              </label>
+              <label>Email
+                <input type="email" placeholder="you@brand.com" autocomplete="off" />
+              </label>
+              <label>Project
+                <textarea rows="3" placeholder="“I want a 3D site like this for my brand…”"></textarea>
+              </label>
+              <button type="submit" class="promo-cta">Send It</button>
+              <span class="promo-confirm" id="promoConfirm">Sent — Aevinite will reply within a day.</span>
+            </form>
+            <div class="promo-meta"><a href="https://aevinite.com" target="_blank" rel="noopener">aevinite.com</a><span>hello@aevinite.com</span></div>
+          </div>
+        </div>
+
+        <!-- Text overlays -->
+        <div class="text-layer">
+          <section class="scene-copy left" data-scene="0">
+            <div class="scene-index"><span>01</span><span class="scene-tag">hero</span><span class="scene-line"></span></div>
+            <h1>Bakes <em>After Dark</em></h1>
+            <p>Sweet Bites is a pocket-sized bakery glowing at the edge of the night market — every pastry case, stool, and sign built to be remembered.</p>
+          </section>
+
+          <section class="scene-copy right" data-scene="1">
+            <div class="scene-index"><span>02</span><span class="scene-tag">counter</span><span class="scene-line"></span></div>
+            <h2>Counter Light <em>&amp; Sugar</em></h2>
+            <p>Lean in at the order window: glass cases of fresh bakes, soft machine glow, and a counter tuned to serve the late crowd in seconds.</p>
+          </section>
+
+          <section class="scene-copy left" data-scene="2">
+            <div class="scene-index"><span>03</span><span class="scene-tag">signage</span><span class="scene-line"></span></div>
+            <h2>A Sign You Can <em>Taste</em></h2>
+            <p>The cupcake neon does all the talking. One glance from across the street and you already know exactly what's on the menu.</p>
+          </section>
+
+          <section class="scene-copy right" data-scene="3">
+            <div class="scene-index"><span>04</span><span class="scene-tag">night-market</span><span class="scene-line"></span></div>
+            <h2>Glow Of The <em>Night Market</em></h2>
+            <p>Pull back and the kiosk becomes a beacon — the single warm object in a sleeping street, framed like a product shot.</p>
+          </section>
+
+          <section class="scene-copy left" data-scene="4">
+            <div class="scene-index"><span>05</span><span class="scene-tag">service</span><span class="scene-line"></span></div>
+            <h2>Built For The <em>Midnight Rush</em></h2>
+            <p>Three stools, one counter, zero wasted space. The footprint stays tiny while the service line never stops moving.</p>
+          </section>
+
+          <section class="scene-copy left contact-copy" data-scene="5">
+            <div class="scene-index"><span>06</span><span class="scene-tag">contact</span><span class="scene-line"></span></div>
+            <h2>Let's Build <em>Yours</em></h2>
+            <p>This whole experience — model, motion, and story — is an Aevinite demo. If you want your product presented like this, say hello.</p>
+          </section>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <script type="importmap">
+  {
+    "imports": {
+      "three": "https://cdn.jsdelivr.net/npm/three@0.160.1/build/three.module.js",
+      "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.160.1/examples/jsm/"
+    }
+  }
+  </script>
+  <script type="module" src="main.js"></script>
+</body>
+</html>

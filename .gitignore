@@ -1,0 +1,4 @@
+# local tooling
+.claude/
+node_modules/
+dist/
