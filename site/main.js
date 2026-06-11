@@ -184,7 +184,11 @@ function applyCamera(p) {
   const dist = lerp(a.dist, b.dist, t) * R * comp;
   const side = lerp(a.side, b.side, t) * R * (portrait ? 0.15 : 1);
   const lift = lerp(a.lift, b.lift, t) * R;
-  const vshift = portrait ? R * 0.42 : 0;
+  /* Raise the model by a fixed FRACTION of the screen height (not a
+     fixed world distance) so it hugs the top on any phone size.
+     screen height at the target ≈ 2 * dist * tan(fov/2) */
+  const screenH = 2 * dist * Math.tan(deg(camera.fov / 2));
+  const vshift = portrait ? screenH * 0.21 : 0;
 
   const target = new THREE.Vector3(0, lift, 0);
   camera.position.set(
@@ -199,7 +203,7 @@ function applyCamera(p) {
   const right = new THREE.Vector3().setFromMatrixColumn(camera.matrix, 0);
   const up = new THREE.Vector3().setFromMatrixColumn(camera.matrix, 1);
   camera.position.addScaledVector(right, -side);
-  camera.position.addScaledVector(up, vshift);
+  camera.position.addScaledVector(up, -vshift); // camera down → model rises on screen
 }
 
 /* ------------------------------------------------------------------ */
