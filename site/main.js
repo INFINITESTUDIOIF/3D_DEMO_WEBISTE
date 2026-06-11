@@ -188,7 +188,7 @@ function applyCamera(p) {
      fixed world distance) so it hugs the top on any phone size.
      screen height at the target ≈ 2 * dist * tan(fov/2) */
   const screenH = 2 * dist * Math.tan(deg(camera.fov / 2));
-  const vshift = portrait ? screenH * 0.21 : 0;
+  const vshift = portrait ? screenH * 0.16 : 0;
 
   const target = new THREE.Vector3(0, lift, 0);
   camera.position.set(
